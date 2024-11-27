@@ -45,8 +45,7 @@ ________________________________________
     ```
 3. Run Install.sh (Linux-Ubuntu)
    ```sh
-    git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
-    cd Plex-Discord-Music-Bot
+   ./setup.sh
     ```
   ## On Windows:
 1. Run Setup.bat
