@@ -37,7 +37,10 @@ Prerequisites
 
 •	FFmpeg: Installed and accessible from your system's PATH.
 ________________________________________
-Installation
+Automatic Installation
+1. Run
+________________________________________
+Manual Installation
 1.	Clone the Repository:
     ```sh
     git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
