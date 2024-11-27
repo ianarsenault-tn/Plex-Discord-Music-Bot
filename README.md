@@ -37,8 +37,22 @@ Prerequisites
 
 •	FFmpeg: Installed and accessible from your system's PATH.
 ________________________________________
-Automatic Installation
-1. Run
+## Automatic Installation
+1. Save the script as setup.sh in the root directory of your project.
+2. Make the script executable:
+   ```sh
+    chmod +x setup.sh
+    ```
+3. Run Install.sh (Linux-Ubuntu)
+   ```sh
+    git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
+    cd Plex-Discord-Music-Bot
+    ```
+  ## On Windows:
+1. Run Setup.bat
+   ```sh
+      setup.bat
+    ```
 ________________________________________
 Manual Installation
 1.	Clone the Repository:
