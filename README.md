@@ -70,23 +70,31 @@ ________________________________________
 
 ________________________________________
 ## 📖 Usage
-Example Commands:
-•	Search for a Track:
-/search query:<track name>
-•	Play a Song:
-/play query:<song title>
-•	Shuffle Your Library:
-/shuffle
-•	Search for an Artist:
-/searchartist query:<artist name>
-•	Play All Songs by an Artist:
-/playartist query:<artist name>
-•	Shuffle Songs by an Artist:
-/shuffleartist query:<artist name>
-•	Search for an Album:
-/searchalbum query:<album name>
-•	Play an Album by ID:
-/playalbumbyid id:<album ID>
+## 🎵 Example Commands
+
+- **Search for a Track:**  
+  `/search query:<track name>`
+
+- **Play a Song:**  
+  `/play query:<song title>`
+
+- **Shuffle Your Library:**  
+  `/shuffle`
+
+- **Search for an Artist:**  
+  `/searchartist query:<artist name>`
+
+- **Play All Songs by an Artist:**  
+  `/playartist query:<artist name>`
+
+- **Shuffle Songs by an Artist:**  
+  `/shuffleartist query:<artist name>`
+
+- **Search for an Album:**  
+  `/searchalbum query:<album name>`
+
+- **Play an Album by ID:**  
+  `/playalbumbyid id:<album ID>`
 ________________________________________
 ## 🛡️ Security Tips
 1.	Environment Variables:
