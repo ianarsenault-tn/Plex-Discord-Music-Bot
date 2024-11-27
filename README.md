@@ -38,6 +38,7 @@ Prerequisites
 •	FFmpeg: Installed and accessible from your system's PATH.
 ________________________________________
 ## Automatic Installation
+## On Linux - Ubuntu
 1. Save the script as setup.sh in the root directory of your project.
 2. Make the script executable:
    ```sh
