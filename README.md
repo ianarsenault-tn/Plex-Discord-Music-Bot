@@ -21,30 +21,30 @@ Prerequisites
 ________________________________________
 Installation
 1.	Clone the Repository:
-bash
-Copy code
-git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
-cd Plex-Discord-Music-Bot
+    ```sh
+    git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
+    cd Plex-Discord-Music-Bot
+    ```
 2.	Set Up a Virtual Environment:
-bash
-Copy code
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```sh
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 3.	Install Dependencies:
-bash
-Copy code
-pip install -r requirements.txt
+    ```sh
+    pip install -r requirements.txt
+    ```
 4.	Configure Environment Variables: Create a .env file in the project root and add the following:
-env
-Copy code
-PLEX_URL=http://<your-plex-server-ip>:32400
-PLEX_TOKEN=<your-plex-token>
-DISCORD_BOT_TOKEN=<your-discord-bot-token>
-APPLICATION_ID=<your-discord-application-id>
+    ```sh
+    PLEX_URL=http://<your-plex-server-ip>:32400
+    PLEX_TOKEN=<your-plex-token>
+    DISCORD_BOT_TOKEN=<your-discord-bot-token>
+    APPLICATION_ID=<your-discord-application-id>
+    ```
 5.	Run the Bot:
-bash
-Copy code
-python plex_discord_bot.py
+    ```sh
+    python plex_discord_bot.py
+    ```
 ________________________________________
 🛠️ Commands
 Command	Description
