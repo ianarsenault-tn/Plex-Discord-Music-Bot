@@ -34,7 +34,7 @@ Installation
     ```sh
     pip install -r requirements.txt
     ```
-4.	Configure Environment Variables: Create a .env file in the project root and add the following:
+4.	Configure Environment Variables: Modify the .env file in the project root and add your details:
     ```sh
     PLEX_URL=http://<your-plex-server-ip>:32400
     PLEX_TOKEN=<your-plex-token>
@@ -69,7 +69,6 @@ ________________________________________
 | `/stop`             | Stop playback and clear the queue.                |
 
 ________________________________________
-## 📖 Usage
 ## 🎵 Example Commands
 
 - **Search for a Track:**  
