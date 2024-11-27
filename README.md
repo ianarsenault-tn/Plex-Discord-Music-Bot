@@ -48,9 +48,14 @@ ________________________________________
    ./setup.sh
     ```
   ## On Windows:
-1. Run Setup.bat
+1. Save the script as setup.bat in the root directory of your project.
+2.Ensure you have the following files in the same directory:
+   - plex_discord_bot.py
+   - requirements.txt
+   - configuration.env.example
+3. Run Setup.bat
    ```sh
-      setup.bat
+   setup.bat
     ```
 ________________________________________
 Manual Installation
