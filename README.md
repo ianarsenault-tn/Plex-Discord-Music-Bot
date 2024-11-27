@@ -46,44 +46,55 @@ Installation
     python plex_discord_bot.py
     ```
 ________________________________________
-🛠️ Commands
-Command	Description
-/join	Make the bot join your current voice channel.
-/leave	Disconnect the bot from the voice channel.
-/play	Play a specific track from your Plex library.
-/queue	Add a track to the queue.
-/search	Search for tracks in your Plex library.
-/searchartist	Search for an artist in your Plex library.
-/playartist	Play all songs by a specific artist.
-/shuffleartist	Shuffle and play songs by a specific artist.
-/searchalbum	Search for albums in your Plex library.
-/playalbum	Play an album by its title.
-/playalbumbyid	Play an album by its unique ID.
-/albuminfo	Get detailed information about an album.
-/shuffle	Shuffle and play random tracks from your library.
-/next	Skip to the next track in the queue.
-/pause	Pause the current track.
-/resume	Resume playback.
-/stop	Stop playback and clear the queue.
+## 🔧 Commands
+
+| Command             | Description                                       |
+|---------------------|---------------------------------------------------|
+| `/join`             | Make the bot join your current voice channel.     |
+| `/leave`            | Disconnect the bot from the voice channel.        |
+| `/play`             | Play a specific track from your Plex library.     |
+| `/queue`            | Add a track to the queue.                         |
+| `/search`           | Search for tracks in your Plex library.           |
+| `/searchartist`     | Search for an artist in your Plex library.        |
+| `/playartist`       | Play all songs by a specific artist.              |
+| `/shuffleartist`    | Shuffle and play songs by a specific artist.      |
+| `/searchalbum`      | Search for albums in your Plex library.           |
+| `/playalbum`        | Play an album by its title.                       |
+| `/playalbumbyid`    | Play an album by its unique ID.                   |
+| `/albuminfo`        | Get detailed information about an album.          |
+| `/shuffle`          | Shuffle and play random tracks from your library. |
+| `/next`             | Skip to the next track in the queue.              |
+| `/pause`            | Pause the current track.                          |
+| `/resume`           | Resume playback.                                  |
+| `/stop`             | Stop playback and clear the queue.                |
+
 ________________________________________
 ## 📖 Usage
-Example Commands:
-•	Search for a Track:
-/search query:<track name>
-•	Play a Song:
-/play query:<song title>
-•	Shuffle Your Library:
-/shuffle
-•	Search for an Artist:
-/searchartist query:<artist name>
-•	Play All Songs by an Artist:
-/playartist query:<artist name>
-•	Shuffle Songs by an Artist:
-/shuffleartist query:<artist name>
-•	Search for an Album:
-/searchalbum query:<album name>
-•	Play an Album by ID:
-/playalbumbyid id:<album ID>
+## 🎵 Example Commands
+
+- **Search for a Track:**  
+  `/search query:<track name>`
+
+- **Play a Song:**  
+  `/play query:<song title>`
+
+- **Shuffle Your Library:**  
+  `/shuffle`
+
+- **Search for an Artist:**  
+  `/searchartist query:<artist name>`
+
+- **Play All Songs by an Artist:**  
+  `/playartist query:<artist name>`
+
+- **Shuffle Songs by an Artist:**  
+  `/shuffleartist query:<artist name>`
+
+- **Search for an Album:**  
+  `/searchalbum query:<album name>`
+
+- **Play an Album by ID:**  
+  `/playalbumbyid id:<album ID>`
 ________________________________________
 ## 🛡️ Security Tips
 1.	Environment Variables:
