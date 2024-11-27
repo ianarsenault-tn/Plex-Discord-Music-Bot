@@ -1,5 +1,5 @@
 # PlexStreamBot 🎵🤖
-
+________________________________________
 Stream your Plex music library directly into Discord voice channels!
 ________________________________________
 ## 📋 Features
