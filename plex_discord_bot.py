@@ -1,3 +1,5 @@
+# plex_discord_bot.py
+
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -7,14 +9,24 @@ import asyncio
 import logging
 import traceback
 from discord import PCMVolumeTransformer
+import os
+from dotenv import load_dotenv  # Import load_dotenv to read environment variables from the .env file
 
 logging.basicConfig(level=logging.INFO)
 
-# Tokens and URLs (Consider storing these in environment variables for security)
-PLEX_URL = 'YOUR_PLEX_URL'
-PLEX_TOKEN = 'YOUR_PLEX_TOKEN'
-DISCORD_BOT_TOKEN = 'YOUR_DISCORD_BOT_TOKEN'
-APPLICATION_ID = 'YOUR_APPLICATION_ID'  # Replace with your application's ID
+# Load environment variables from configuration.env
+load_dotenv(dotenv_path='configuration.env')
+
+# Tokens and URLs (Loaded from environment variables)
+PLEX_URL = os.getenv('PLEX_URL')
+PLEX_TOKEN = os.getenv('PLEX_TOKEN')
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+APPLICATION_ID = os.getenv('APPLICATION_ID')
+
+# Check if all environment variables are loaded
+if not PLEX_URL or not PLEX_TOKEN or not DISCORD_BOT_TOKEN or not APPLICATION_ID:
+    logging.error("One or more environment variables are missing.")
+    exit(1)
 
 # Initialize Plex
 plex = PlexServer(PLEX_URL, PLEX_TOKEN)
@@ -37,7 +49,7 @@ class MusicBot(commands.Bot):
         await self.clear_and_sync_commands()
 
     async def clear_and_sync_commands(self):
-        # Remove the 'searchmusic' command
+        # Remove the 'searchmusic' command if it exists
         global_commands = await self.tree.fetch_commands()
         for cmd in global_commands:
             if cmd.name == 'searchmusic':
@@ -257,7 +269,7 @@ async def playalbumbyid(interaction: discord.Interaction, id: int):
     await interaction.response.defer()
     try:
         # Attempt to fetch the album using the provided ID
-        album = plex.fetchItem(int(id))
+        album = plex.library.fetchItem(int(id))
         if album and album.type == 'album':
             tracks = album.tracks()
             if tracks:
@@ -284,7 +296,7 @@ async def playalbumbyid(interaction: discord.Interaction, id: int):
             await interaction.followup.send('Album not found. Please ensure you have the correct ID.')
     except Exception as e:
         # Log the exception and inform the user
-        logging.error(f'Error in playalbumbyid: {e}')
+        logging.error(f'Error in playalbumbyid: {e}', exc_info=True)
         traceback.print_exc()
         await interaction.followup.send('An error occurred while fetching the album.')
 
@@ -477,4 +489,5 @@ async def shuffle(interaction: discord.Interaction):
         logging.error(f'Error in shuffle command: {e}')
         traceback.print_exc()
         
-bot.run("YOUR_DISCORD_BOT_TOKEN")
+# Run the bot using the token from the environment variable
+bot.run(DISCORD_BOT_TOKEN)
