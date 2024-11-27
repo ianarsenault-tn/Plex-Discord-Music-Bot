@@ -114,23 +114,33 @@ ________________________________________
   `/playalbumbyid id:<album ID>`
 ________________________________________
 ## 🛡️ Security Tips
+
 1.	Environment Variables:
 Store sensitive information (Plex and Discord tokens) in a .env file. Never hardcode these in your code.
+
 2.	Restrict Access:
 Ensure your Plex server is only accessible to authorized users.
+
 3.	.gitignore:
 Add .env to .gitignore to prevent accidental sharing of sensitive information.
 ________________________________________
 ## 🌟 Contributing
+
 Contributions, feature requests, and bug reports are welcome!
+
 1.	Fork the repository.
+
 2.	Create a new branch for your feature or fix.
+
 3.	Submit a pull request with a clear description of the changes.
 ________________________________________
 ## 📜 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 ________________________________________
 ## ❤️ Acknowledgments
+
 •	PlexAPI: Python library for interacting with Plex.
+
 •	Discord.py: Discord API wrapper for Python.
+
 •	FFmpeg: Enables high-quality audio streaming.
