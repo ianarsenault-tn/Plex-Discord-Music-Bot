@@ -53,7 +53,7 @@ ________________________________________
 2. Ensure you have the following files in the same directory:
    - plex_discord_bot.py
    - requirements.txt
-   - configuration.env.example
+   - configuration.env
 3. Run Setup.bat
    ```sh
    setup.bat
