@@ -1,0 +1,48 @@
+Key Features
+FFmpeg Installation:
+
+The script downloads FFmpeg from the official GitHub releases and extracts it to a folder named ffmpeg within the project directory.
+It adds FFmpeg's bin folder to the system PATH temporarily for the current session.
+Python and Pip Validation:
+
+Checks if python and pip are installed. If not, it prompts the user to install Python manually.
+Virtual Environment:
+
+Creates a Python virtual environment named plex_bot_env to isolate dependencies.
+Dependencies Installation:
+
+Automatically installs all dependencies listed in requirements.txt.
+Environment Variables Configuration:
+
+Creates a configuration.env file from a template (configuration.env.example) if it doesn’t already exist.
+Bot Testing:
+
+Tests the bot by running python plex_discord_bot.py --help to ensure there are no immediate errors.
+Interactive Start:
+
+Prompts the user to start the bot immediately or provides instructions to run it later.
+Usage Instructions
+Save the script as setup.bat in the root directory of your project.
+
+Ensure you have the following files in the same directory:
+
+plex_discord_bot.py
+requirements.txt
+configuration.env.example
+
+Double-click or run the script in a Command Prompt window:
+
+setup.bat
+
+Things to Note
+
+FFmpeg Installation:
+
+The script uses PowerShell to download and extract FFmpeg. Ensure PowerShell is enabled on your system.
+The downloaded FFmpeg version can be updated by modifying the FFMPEG_URL variable in the script.
+User Credentials:
+
+The user must manually update the configuration.env file with their Plex and Discord credentials after the script creates it.
+Error Handling:
+
+Basic error handling is included to check for missing dependencies, files, or installation failures.

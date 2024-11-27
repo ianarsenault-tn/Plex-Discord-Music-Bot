@@ -1,0 +1,45 @@
+Usage Instructions
+
+Save the script as setup.sh in the root directory of your project.
+
+Make the script executable:
+
+chmod +x setup.sh
+
+Run the script:
+
+./setup.sh
+
+Optional: Add a Systemd Service
+
+To make the bot start automatically on system boot, you can create a systemd service file.
+
+Example plex_discord_bot.service File:
+
+[Unit]
+Description=PlexStreamBot Service
+After=network.target
+
+[Service]
+User=your-username
+WorkingDirectory=/path/to/plexstreambot
+ExecStart=/path/to/plexstreambot/plex_bot_env/bin/python plex_discord_bot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+Steps to Enable Systemd Service:
+
+Save the file as /etc/systemd/system/plex_discord_bot.service.
+Reload systemd to recognize the new service:
+
+sudo systemctl daemon-reload
+
+Enable the service:
+
+sudo systemctl enable plex_discord_bot.service
+
+Start the service:
+
+sudo systemctl start plex_discord_bot.service
