@@ -69,7 +69,6 @@ ________________________________________
 | `/stop`             | Stop playback and clear the queue.                |
 
 ________________________________________
-## 📖 Usage
 ## 🎵 Example Commands
 
 - **Search for a Track:**  
