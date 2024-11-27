@@ -1,22 +1,40 @@
 # PlexStreamBot 🎵🤖
-
 Stream your Plex music library directly into Discord voice channels!
 ________________________________________
 ## 📋 Features
-•	🎶 Stream Music: Play tracks, albums, or shuffled playlists directly from your Plex library.
-•	🔍 Search and Queue: Find songs, albums, or artists and add them to the queue with simple slash commands.
-•	🎤 Artist Functions: Search for artists, play all songs by an artist, or shuffle their entire discography.
-•	📀 Album Playback: Search for albums, play an album by title, or play by unique album ID.
-•	🔀 Shuffle: Shuffle your entire library or specific artist's discography.
-•	🎛️ Control Playback: Commands for pausing, resuming, skipping, stopping, and clearing the queue.
-•	🎧 Rich Presence: Displays the currently playing track and artist in the bot’s Discord activity status.
-•	🛠️ Slash Commands: Intuitive and easy-to-use commands for interacting with the bot.
+🎶 Stream Music
+Play tracks, albums, or shuffled playlists directly from your Plex library.
+
+🔍 Search and Queue
+Find songs, albums, or artists and add them to the queue with simple slash commands.
+
+🎤 Artist Functions
+Search for artists, play all songs by an artist, or shuffle their entire discography.
+
+📀 Album Playback
+Search for albums, play an album by title, or play by unique album ID.
+
+🔀 Shuffle
+Shuffle your entire library or a specific artist's discography.
+
+🎛️ Control Playback
+Commands for pausing, resuming, skipping, stopping, and clearing the queue.
+
+🎧 Rich Presence
+Displays the currently playing track and artist in the bot’s Discord activity status.
+
+🛠️ Slash Commands
+Intuitive and easy-to-use commands for interacting with the bot.
 ________________________________________
 ## 🚀 Getting Started
 Prerequisites
+
 •	Python 3.8+
+
 •	Plex Media Server with a configured music library.
+
 •	Discord Application: Create a bot on the Discord Developer Portal.
+
 •	FFmpeg: Installed and accessible from your system's PATH.
 ________________________________________
 Installation
