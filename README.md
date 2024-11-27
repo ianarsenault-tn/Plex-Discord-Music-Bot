@@ -28,9 +28,13 @@ Intuitive and easy-to-use commands for interacting with the bot.
 ________________________________________
 ## 🚀 Getting Started
 Prerequisites
+
 •	Python 3.8+
+
 •	Plex Media Server with a configured music library.
+
 •	Discord Application: Create a bot on the Discord Developer Portal.
+
 •	FFmpeg: Installed and accessible from your system's PATH.
 ________________________________________
 Installation
