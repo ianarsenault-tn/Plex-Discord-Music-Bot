@@ -5,10 +5,8 @@ from discord.ext import commands
 from discord import app_commands
 from plexapi.server import PlexServer
 import random
-import asyncio
 import logging
 import traceback
-from discord import PCMVolumeTransformer
 import os
 from dotenv import load_dotenv  # Import load_dotenv to read environment variables from the .env file
 
@@ -44,6 +42,7 @@ class MusicBot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix='!', intents=intents, application_id=APPLICATION_ID)
         self.music_queues = {}  # Holds the music queue for each guild
+        self.current_tracks = {}  # Holds currently playing track per guild
 
     async def setup_hook(self):
         await self.clear_and_sync_commands()
@@ -79,6 +78,25 @@ def get_guild_queue(guild_id):
         bot.music_queues[guild_id] = []
     return bot.music_queues[guild_id]
 
+def get_current_track(guild_id):
+    return bot.current_tracks.get(guild_id)
+
+def set_current_track(guild_id, track):
+    if track:
+        bot.current_tracks[guild_id] = track
+    else:
+        bot.current_tracks.pop(guild_id, None)
+
+async def ensure_voice_connection(interaction: discord.Interaction):
+    if interaction.guild.voice_client:
+        return True
+    if interaction.user.voice:
+        channel = interaction.user.voice.channel
+        await channel.connect()
+        return True
+    await interaction.followup.send("You are not connected to a voice channel.")
+    return False
+
 # FFmpeg options
 FFMPEG_OPTIONS = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
@@ -97,6 +115,7 @@ async def play_next(guild, text_channel):
     queue = get_guild_queue(guild_id)
     if queue:
         track = queue.pop(0)
+        set_current_track(guild_id, track)
         url = track.getStreamURL(token=PLEX_TOKEN)
         try:
             # Use FFmpegOpusAudio for better compatibility
@@ -117,6 +136,7 @@ async def play_next(guild, text_channel):
             # Proceed to the next track in case of error
             await play_next(guild, text_channel)
     else:
+        set_current_track(guild_id, None)
         await voice_client.disconnect()
         # Clear bot's activity status
         await bot.change_presence(activity=None)
@@ -142,25 +162,7 @@ async def join(interaction: discord.Interaction):
         )
 
 
-# Leave command
-@bot.tree.command(name="leave", description="Leave the voice channel")
-async def leave(interaction: discord.Interaction):
-    if interaction.guild.voice_client:
-        await interaction.guild.voice_client.disconnect()
-        await interaction.response.send_message("Disconnected.", ephemeral=True)
-    else:
-        await interaction.response.send_message(
-            "I'm not connected to a voice channel.", ephemeral=True
-        )
-
-# Search command
-@bot.tree.command(name="search", description="Search for a track in your Plex library")
-@app_commands.describe(query="The song title to search for")
-async def search(interaction: discord.Interaction, query: str):
-    await interaction.response.defer()
-    tracks = plex.library.section('Music').searchTracks(title=query, maxresults=20)
-    if tracks:
-        response = '\n'.join(
+@@ -164,222 +184,197 @@ async def search(interaction: discord.Interaction, query: str):
             [f'{idx+1}. {track.title} - {track.artist().title}' for idx, track in enumerate(tracks)]
         )
         await interaction.followup.send(response)
@@ -186,13 +188,8 @@ async def searchartist(interaction: discord.Interaction, query: str):
 @app_commands.describe(query="The artist name")
 async def playartist(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
-    if not interaction.guild.voice_client:
-        if interaction.user.voice:
-            channel = interaction.user.voice.channel
-            await channel.connect()
-        else:
-            await interaction.followup.send("You are not connected to a voice channel.")
-            return
+    if not await ensure_voice_connection(interaction):
+        return
 
     artists = plex.library.section('Music').searchArtists(title=query, maxresults=1)
     if artists:
@@ -218,13 +215,8 @@ async def playartist(interaction: discord.Interaction, query: str):
 @app_commands.describe(query="The artist name")
 async def shuffleartist(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
-    if not interaction.guild.voice_client:
-        if interaction.user.voice:
-            channel = interaction.user.voice.channel
-            await channel.connect()
-        else:
-            await interaction.followup.send("You are not connected to a voice channel.")
-            return
+    if not await ensure_voice_connection(interaction):
+        return
 
     artists = plex.library.section('Music').searchArtists(title=query, maxresults=1)
     if artists:
@@ -274,13 +266,8 @@ async def playalbumbyid(interaction: discord.Interaction, id: int):
             tracks = album.tracks()
             if tracks:
                 # Ensure the bot is connected to a voice channel
-                if not interaction.guild.voice_client:
-                    if interaction.user.voice:
-                        channel = interaction.user.voice.channel
-                        await channel.connect()
-                    else:
-                        await interaction.followup.send("You are not connected to a voice channel.")
-                        return
+                if not await ensure_voice_connection(interaction):
+                    return
                 guild_id = interaction.guild.id
                 queue = get_guild_queue(guild_id)
                 queue.clear()  # Optional: Clear existing queue
@@ -319,13 +306,8 @@ async def albuminfo(interaction: discord.Interaction, query: str):
 @app_commands.describe(query="The album title to play")
 async def playalbum(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
-    if not interaction.guild.voice_client:
-        if interaction.user.voice:
-            channel = interaction.user.voice.channel
-            await channel.connect()
-        else:
-            await interaction.followup.send("You are not connected to a voice channel.")
-            return
+    if not await ensure_voice_connection(interaction):
+        return
 
     albums = plex.library.section('Music').searchAlbums(title=query, maxresults=1)
     if albums:
@@ -351,13 +333,8 @@ async def playalbum(interaction: discord.Interaction, query: str):
 @app_commands.describe(query="The song title to play")
 async def play(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
-    if not interaction.guild.voice_client:
-        if interaction.user.voice:
-            channel = interaction.user.voice.channel
-            await channel.connect()
-        else:
-            await interaction.followup.send("You are not connected to a voice channel.")
-            return
+    if not await ensure_voice_connection(interaction):
+        return
 
     tracks = plex.library.section('Music').searchTracks(title=query, maxresults=1)
     if tracks:
@@ -383,19 +360,7 @@ async def queue_track(interaction: discord.Interaction, query: str):
     if tracks:
         track = tracks[0]
         guild_id = interaction.guild.id
-        queue = get_guild_queue(guild_id)
-        queue.append(track)
-        await interaction.followup.send(
-            f'Added to queue: {track.title} - {track.artist().title}'
-        )
-    else:
-        await interaction.followup.send('Track not found.')
-
-# Next command
-@bot.tree.command(name="next", description="Skip to the next track")
-async def next_track(interaction: discord.Interaction):
-    if interaction.guild.voice_client:
-        interaction.guild.voice_client.stop()
+@@ -399,95 +394,89 @@ async def next_track(interaction: discord.Interaction):
         await interaction.response.send_message('Skipping to the next track.')
     else:
         await interaction.response.send_message('Nothing is playing.')
@@ -421,10 +386,8 @@ async def resume(interaction: discord.Interaction):
 
         # Restore bot's activity status to current track
         guild_id = interaction.guild.id
-        queue = get_guild_queue(guild_id)
-        if queue:
-            # The currently playing track is the first in the queue
-            track = queue[0]
+        track = get_current_track(guild_id)
+        if track:
             activity = discord.Activity(type=discord.ActivityType.listening, name=f"{track.artist().title} - {track.title}")
             await bot.change_presence(activity=activity)
         else:
@@ -439,6 +402,7 @@ async def stop(interaction: discord.Interaction):
     if interaction.guild.voice_client:
         interaction.guild.voice_client.stop()
         get_guild_queue(guild_id).clear()
+        set_current_track(guild_id, None)
         await interaction.response.send_message('Playback stopped and queue cleared.')
 
         # Clear bot's activity status
@@ -451,13 +415,8 @@ async def stop(interaction: discord.Interaction):
 async def shuffle(interaction: discord.Interaction):
     await interaction.response.defer()
 
-    if not interaction.guild.voice_client:
-        if interaction.user.voice:
-            channel = interaction.user.voice.channel
-            await channel.connect()
-        else:
-            await interaction.followup.send("You are not connected to a voice channel.")
-            return
+    if not await ensure_voice_connection(interaction):
+        return
 
     await interaction.followup.send('Shuffling your music library. This may take a moment...')
 

@@ -72,7 +72,7 @@ Manual Installation
     ```
 3.	Install Dependencies:
     ```sh
-    pip install -r requirements.txt
+    python3 -m pip install -r requirements.txt
     ```
 4.	Configure Environment Variables: Modify the .env file in the project root and add your details:
     ```sh
@@ -83,8 +83,24 @@ Manual Installation
     ```
 5.	Run the Bot:
     ```sh
-    python plex_discord_bot.py
+    python3 plex_discord_bot.py
     ```
+________________________________________
+## Ubuntu Troubleshooting
+If you get `No matching distribution found for python-plexapi` or `externally-managed-environment`, use these steps:
+
+```sh
+sudo apt update
+sudo apt install -y git python3 python3-venv python3-pip ffmpeg
+git clone https://github.com/ianarsenault-tn/Plex-Discord-Music-Bot.git
+cd Plex-Discord-Music-Bot
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+python3 plex_discord_bot.py
+```
+
 ________________________________________
 ## 🔧 Commands
 
