@@ -87,13 +87,23 @@ def set_current_track(guild_id, track):
     else:
         bot.current_tracks.pop(guild_id, None)
 
+VOICE_DEPENDENCY_ERROR = (
+    "Voice support dependency missing: install PyNaCl in your virtual environment with `python3 -m pip install PyNaCl`."
+)
+
 async def ensure_voice_connection(interaction: discord.Interaction):
     if interaction.guild.voice_client:
         return True
     if interaction.user.voice:
         channel = interaction.user.voice.channel
-        await channel.connect()
-        return True
+        try:
+            await channel.connect()
+            return True
+        except RuntimeError as err:
+            if "PyNaCl library needed" in str(err):
+                await interaction.followup.send(VOICE_DEPENDENCY_ERROR)
+                return False
+            raise
     await interaction.followup.send("You are not connected to a voice channel.")
     return False
 
@@ -154,15 +164,39 @@ async def play_next_wrapper(guild, text_channel):
 async def join(interaction: discord.Interaction):
     if interaction.user.voice:
         channel = interaction.user.voice.channel
-        await channel.connect(self_deaf=False, self_mute=False)
-        await interaction.response.send_message(f"Joined {channel}", ephemeral=True)
+        try:
+            await channel.connect(self_deaf=False, self_mute=False)
+            await interaction.response.send_message(f"Joined {channel}", ephemeral=True)
+        except RuntimeError as err:
+            if "PyNaCl library needed" in str(err):
+                await interaction.response.send_message(VOICE_DEPENDENCY_ERROR, ephemeral=True)
+            else:
+                raise
     else:
         await interaction.response.send_message(
             "You are not connected to a voice channel.", ephemeral=True
         )
 
 
-@@ -164,222 +184,197 @@ async def search(interaction: discord.Interaction, query: str):
+# Leave command
+@bot.tree.command(name="leave", description="Leave the voice channel")
+async def leave(interaction: discord.Interaction):
+    if interaction.guild.voice_client:
+        await interaction.guild.voice_client.disconnect()
+        await interaction.response.send_message("Disconnected.", ephemeral=True)
+    else:
+        await interaction.response.send_message(
+            "I'm not connected to a voice channel.", ephemeral=True
+        )
+
+# Search command
+@bot.tree.command(name="search", description="Search for a track in your Plex library")
+@app_commands.describe(query="The song title to search for")
+async def search(interaction: discord.Interaction, query: str):
+    await interaction.response.defer()
+    tracks = plex.library.section('Music').searchTracks(title=query, maxresults=20)
+    if tracks:
+        response = '\n'.join(
             [f'{idx+1}. {track.title} - {track.artist().title}' for idx, track in enumerate(tracks)]
         )
         await interaction.followup.send(response)
@@ -360,7 +394,7 @@ async def queue_track(interaction: discord.Interaction, query: str):
     if tracks:
         track = tracks[0]
         guild_id = interaction.guild.id
-@@ -399,95 +394,89 @@ async def next_track(interaction: discord.Interaction):
+@@ -399,95 +410,89 @@ async def next_track(interaction: discord.Interaction):
         await interaction.response.send_message('Skipping to the next track.')
     else:
         await interaction.response.send_message('Nothing is playing.')
