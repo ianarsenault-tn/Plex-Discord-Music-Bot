@@ -36,6 +36,8 @@ Prerequisites
 •	Discord Application: Create a bot on the Discord Developer Portal.
 
 •	FFmpeg: Installed and accessible from your system's PATH.
+
+•	PyNaCl: Required for Discord voice channel support.
 ________________________________________
 ## Automatic Installation
 ## On Linux - Ubuntu
@@ -87,7 +89,7 @@ Manual Installation
     ```
 ________________________________________
 ## Ubuntu Troubleshooting
-If you get `No matching distribution found for python-plexapi` or `externally-managed-environment`, use these steps:
+If you get `No matching distribution found for python-plexapi`, `externally-managed-environment`, or `PyNaCl library needed in order to use voice`, use these steps:
 
 ```sh
 sudo apt update
@@ -100,7 +102,6 @@ python3 -m pip install --upgrade pip
 python3 -m pip install -r requirements.txt
 python3 plex_discord_bot.py
 ```
-
 ________________________________________
 ## 🔧 Commands
 
